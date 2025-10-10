@@ -40,11 +40,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Type check
-        run: pnpm type-check
-
       - name: Build packages
         run: pnpm build:packages
+
+      - name: Type check
+        run: pnpm type-check
 
       - name: Build application
         run: pnpm --filter lab-quick-start build

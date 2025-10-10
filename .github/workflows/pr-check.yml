@@ -25,15 +25,15 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Build packages
+        run: pnpm build:packages
+
       - name: Lint check
         run: pnpm lint || echo "⚠️  Lint not fully configured yet"
         continue-on-error: true
 
       - name: Type check
         run: pnpm type-check
-
-      - name: Build packages
-        run: pnpm build:packages
 
       - name: Build application
         run: pnpm --filter lab-quick-start build
