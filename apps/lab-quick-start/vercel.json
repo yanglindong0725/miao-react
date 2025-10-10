@@ -1,6 +1,0 @@
-{
-  "buildCommand": "cd ../.. && pnpm build:packages && pnpm --filter lab-quick-start build",
-  "outputDirectory": "dist",
-  "installCommand": "cd ../.. && pnpm install",
-  "framework": null
-}
