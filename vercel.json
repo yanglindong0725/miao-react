@@ -1,14 +1,6 @@
 {
-  "version": 2,
   "buildCommand": "pnpm build:packages && pnpm --filter lab-quick-start build",
   "outputDirectory": "apps/lab-quick-start/dist",
   "installCommand": "pnpm install",
-  "framework": null,
-  "devCommand": "pnpm dev",
-  "git": {
-    "deploymentEnabled": {
-      "main": true,
-      "master": true
-    }
-  }
+  "framework": null
 }
