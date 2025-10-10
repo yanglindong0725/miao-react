@@ -160,7 +160,7 @@ const [data, setData] = useLocalStorage("key", initialValue);
 - **构建工具**: Vite 7
 - **框架**: React 19
 - **语言**: TypeScript 5.9
-- **包管理**: pnpm 9
+- **包管理**: pnpm 10
 - **代码规范**: ESLint 9
 
 ## 📄 许可证

@@ -1,0 +1,67 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          # 获取最新的两个标签
+          PREVIOUS_TAG=$(git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1) 2>/dev/null || echo "")
+          CURRENT_TAG=${GITHUB_REF#refs/tags/}
+          
+          echo "## 🎉 Release ${CURRENT_TAG}" > CHANGELOG.md
+          echo "" >> CHANGELOG.md
+          
+          if [ -n "$PREVIOUS_TAG" ]; then
+            echo "### Changes since ${PREVIOUS_TAG}" >> CHANGELOG.md
+            echo "" >> CHANGELOG.md
+            git log ${PREVIOUS_TAG}..HEAD --pretty=format:"- %s (%h)" >> CHANGELOG.md
+          else
+            echo "### Initial Release" >> CHANGELOG.md
+            echo "" >> CHANGELOG.md
+            git log --pretty=format:"- %s (%h)" >> CHANGELOG.md
+          fi
+          
+          echo "" >> CHANGELOG.md
+          cat CHANGELOG.md
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body_path: CHANGELOG.md
+          draft: false
+          prerelease: false
+

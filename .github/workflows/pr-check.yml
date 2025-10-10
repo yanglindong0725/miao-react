@@ -1,0 +1,91 @@
+name: PR Check
+
+on:
+  pull_request:
+    branches: [main, master]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build packages
+        run: pnpm build:packages
+
+      - name: Lint check
+        run: pnpm lint || echo "⚠️  Lint not fully configured yet"
+        continue-on-error: true
+
+      - name: Type check
+        run: pnpm type-check
+
+      - name: Build application
+        run: pnpm --filter lab-quick-start build
+
+      - name: Comment on PR
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const comment = `## ✅ PR Check Passed!
+            
+            All checks completed successfully:
+            - ✅ Dependencies installed
+            - ✅ Type check passed
+            - ✅ Build successful
+            
+            **Ready for review!** 🚀
+            
+            Preview deployment will be available on Vercel.`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            })
+
+      - name: Comment on PR failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const comment = `## ❌ PR Check Failed
+            
+            Some checks did not pass. Please review the errors above and fix them.
+            
+            Common issues:
+            - Type errors in code
+            - Build failures
+            - Missing dependencies
+            
+            Push new commits to re-run checks.`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            })
+
