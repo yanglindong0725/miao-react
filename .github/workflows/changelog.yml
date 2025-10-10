@@ -6,6 +6,9 @@ on:
       - main
       - master
 
+permissions:
+  contents: write
+
 jobs:
   changelog:
     runs-on: ubuntu-latest
@@ -36,7 +39,11 @@ jobs:
           
           if [ -f "CHANGELOG.md" ]; then
             git add CHANGELOG.md
-            git diff --quiet && git diff --staged --quiet || git commit -m "docs: 更新 CHANGELOG"
-            git push
+            if git diff --quiet && git diff --staged --quiet; then
+              echo "No changes to commit"
+            else
+              git commit -m "docs: 更新 CHANGELOG [skip ci]"
+              git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
+            fi
           fi
 
