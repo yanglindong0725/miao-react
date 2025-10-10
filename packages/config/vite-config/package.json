@@ -1,0 +1,22 @@
+{
+  "name": "@miao/vite-config",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./lib": "./lib.js"
+  },
+  "files": [
+    "index.js",
+    "lib.js"
+  ],
+  "peerDependencies": {
+    "vite": "^7.0.0"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react-swc": "^4.1.0",
+    "vite-plugin-dts": "^4.5.0"
+  }
+}

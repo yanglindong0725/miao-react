@@ -1,0 +1,32 @@
+{
+  "name": "lab-quick-start",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "@miao/ui": "workspace:*",
+    "@miao/utils": "workspace:*",
+    "@miao/hooks": "workspace:*",
+    "@miao/types": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.16",
+    "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react-swc": "^4.1.0",
+    "@miao/eslint-config": "workspace:*",
+    "@miao/typescript-config": "workspace:*",
+    "@miao/vite-config": "workspace:*",
+    "eslint": "^9.36.0",
+    "typescript": "~5.9.3",
+    "vite": "^7.1.7"
+  }
+}
