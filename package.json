@@ -1,30 +1,26 @@
 {
-  "name": "miao-react",
+  "name": "miao-react-monorepo",
+  "version": "1.0.0",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=9.0.0"
   },
-  "dependencies": {
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+  "scripts": {
+    "dev": "pnpm --filter lab-quick-start dev",
+    "dev:all": "pnpm --parallel --filter \"./apps/**\" dev",
+    "build": "pnpm build:packages && pnpm build:apps",
+    "build:packages": "pnpm --filter \"./packages/utils\" build && pnpm --filter \"./packages/types\" build && pnpm --filter \"./packages/hooks\" build && pnpm --filter \"./packages/ui\" build",
+    "build:apps": "pnpm --filter \"./apps/**\" build",
+    "lint": "pnpm --recursive lint",
+    "type-check": "pnpm --recursive type-check",
+    "clean": "pnpm --recursive exec rm -rf dist node_modules",
+    "clean:dist": "pnpm --recursive exec rm -rf dist"
   },
   "devDependencies": {
-    "@eslint/js": "^9.36.0",
     "@types/node": "^24.6.0",
-    "@types/react": "^19.1.16",
-    "@types/react-dom": "^19.1.9",
-    "@vitejs/plugin-react-swc": "^4.1.0",
-    "eslint": "^9.36.0",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.22",
-    "globals": "^16.4.0",
-    "typescript": "~5.9.3",
-    "typescript-eslint": "^8.45.0",
-    "vite": "^7.1.7"
+    "typescript": "~5.9.3"
   }
 }
