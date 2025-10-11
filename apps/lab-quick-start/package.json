@@ -11,21 +11,23 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
+    "@miao/hooks": "workspace:*",
+    "@miao/types": "workspace:*",
     "@miao/ui": "workspace:*",
     "@miao/utils": "workspace:*",
-    "@miao/hooks": "workspace:*",
-    "@miao/types": "workspace:*"
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
   },
   "devDependencies": {
-    "@types/react": "^19.1.16",
-    "@types/react-dom": "^19.1.9",
-    "@vitejs/plugin-react-swc": "^4.1.0",
     "@miao/eslint-config": "workspace:*",
     "@miao/typescript-config": "workspace:*",
     "@miao/vite-config": "workspace:*",
+    "@tailwindcss/vite": "^4.1.14",
+    "@types/react": "^19.1.16",
+    "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react-swc": "^4.1.0",
     "eslint": "^9.36.0",
+    "tailwindcss": "^4.1.14",
     "typescript": "~5.9.3",
     "vite": "^7.1.7"
   }
