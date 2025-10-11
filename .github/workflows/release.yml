@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*.*.*'
 
+permissions:
+  contents: write
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -38,30 +41,26 @@ jobs:
           PREVIOUS_TAG=$(git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1) 2>/dev/null || echo "")
           CURRENT_TAG=${GITHUB_REF#refs/tags/}
           
-          echo "## 🎉 Release ${CURRENT_TAG}" > CHANGELOG.md
-          echo "" >> CHANGELOG.md
+          echo "## 🎉 Release ${CURRENT_TAG}" > RELEASE_NOTES.md
+          echo "" >> RELEASE_NOTES.md
           
           if [ -n "$PREVIOUS_TAG" ]; then
-            echo "### Changes since ${PREVIOUS_TAG}" >> CHANGELOG.md
-            echo "" >> CHANGELOG.md
-            git log ${PREVIOUS_TAG}..HEAD --pretty=format:"- %s (%h)" >> CHANGELOG.md
+            echo "### Changes since ${PREVIOUS_TAG}" >> RELEASE_NOTES.md
+            echo "" >> RELEASE_NOTES.md
+            git log ${PREVIOUS_TAG}..HEAD --pretty=format:"- %s (%h)" >> RELEASE_NOTES.md
           else
-            echo "### Initial Release" >> CHANGELOG.md
-            echo "" >> CHANGELOG.md
-            git log --pretty=format:"- %s (%h)" >> CHANGELOG.md
+            echo "### Initial Release" >> RELEASE_NOTES.md
+            echo "" >> RELEASE_NOTES.md
+            git log --pretty=format:"- %s (%h)" >> RELEASE_NOTES.md
           fi
           
-          echo "" >> CHANGELOG.md
-          cat CHANGELOG.md
+          echo "" >> RELEASE_NOTES.md
+          cat RELEASE_NOTES.md
 
       - name: Create GitHub Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body_path: CHANGELOG.md
+          body_path: RELEASE_NOTES.md
           draft: false
           prerelease: false
 
