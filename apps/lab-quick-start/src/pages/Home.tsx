@@ -1,4 +1,8 @@
-import { Disclosure } from "@headlessui/react";
+import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+} from "@headlessui/react";
 import { ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import { menuConfig } from "@/config/routes.config";
@@ -34,7 +38,7 @@ export function Home() {
               <Disclosure key={category.id} defaultOpen>
                 {({ open }) => (
                   <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-                    <Disclosure.Button className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
+                    <DisclosureButton className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
                       <div>
                         <h2 className="text-xl font-semibold text-gray-900">
                           {category.label}
@@ -48,9 +52,9 @@ export function Home() {
                           open ? "rotate-180" : ""
                         }`}
                       />
-                    </Disclosure.Button>
+                    </DisclosureButton>
 
-                    <Disclosure.Panel className="px-6 pb-4">
+                    <DisclosurePanel className="px-6 pb-4">
                       <div className="space-y-2 pt-2">
                         {category.routes.map((route) => (
                           <Link
@@ -74,7 +78,7 @@ export function Home() {
                           </Link>
                         ))}
                       </div>
-                    </Disclosure.Panel>
+                    </DisclosurePanel>
                   </div>
                 )}
               </Disclosure>
